@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2457e6">
+<meta name="description" content="FocusFlow: দৈনিক রুটিন, ফোকাস টাইমার ও অগ্রগতি ট্র্যাকার">
+<link rel="manifest" href="manifest.json">
+<title>FocusFlow | Smart Routine</title>
+<style>
+:root{--blue:#2457e6;--purple:#7257e8;--ink:#172033;--muted:#68738a;--bg:#f4f6fc;--card:#fff;--line:#e7eaf3;--green:#14966b;--red:#d94a5a;--amber:#b87508}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 14px;font-weight:650}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a9bbff;outline-offset:2px}
+.app{max-width:920px;margin:auto;padding:18px 14px 90px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 0 18px}.brand{display:flex;gap:10px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;display:grid;place-items:center;font-size:23px;font-weight:900;box-shadow:0 7px 18px #2457e633}.brand h1{font-size:21px;margin:0}.brand p{font-size:12px;color:var(--muted);margin:2px 0 0}.date{font-size:12px;color:var(--muted);text-align:right}.hero{background:linear-gradient(130deg,#2457e6,#7355e9);color:#fff;border-radius:24px;padding:22px;box-shadow:0 14px 32px #2457e626}.hero h2{font-size:21px;margin:0 0 6px}.hero p{margin:0;color:#e8edff;font-size:13px}.hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}.metric{background:#ffffff20;border:1px solid #ffffff25;border-radius:15px;padding:12px}.metric strong{display:block;font-size:22px}.metric span{font-size:11px;color:#e8edff}.progress-track{height:8px;background:#ffffff42;border-radius:20px;margin-top:15px;overflow:hidden}.progress-fill{height:100%;width:0;background:#fff;border-radius:20px;transition:width .25s}
+.tabs{display:flex;gap:7px;margin:18px 0;overflow-x:auto;padding-bottom:2px}.tab{background:#e9edfa;color:#526079;white-space:nowrap}.tab.active{background:var(--blue);color:#fff}.panel{display:none}.panel.active{display:block}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:20px 2px 12px}.section-head h2{font-size:18px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:4px}.primary{background:var(--blue);color:#fff}.soft{background:#edf1ff;color:var(--blue)}.danger{background:#fff0f1;color:var(--red)}.success{background:#e6f8f0;color:var(--green)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:11px;box-shadow:0 4px 14px #182c5806}.task{display:flex;align-items:flex-start;gap:12px}.task-main{flex:1;min-width:0}.task-title{font-weight:750;margin:1px 0 5px;overflow-wrap:anywhere}.task-meta{font-size:12px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}.tag{display:inline-flex;background:#f0f3fa;color:#59657b;padding:4px 8px;border-radius:8px;font-size:11px}.tag.high{background:#fff0f1;color:var(--red)}.tag.done{background:#e6f8f0;color:var(--green)}.task-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.small{font-size:12px;padding:8px 10px}.check{width:22px;height:22px;accent-color:var(--green);margin-top:2px}.empty{text-align:center;color:var(--muted);padding:28px 10px}.empty b{display:block;color:var(--ink);margin-bottom:5px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:700;color:#566178}.field input,.field select,.field textarea{width:100%;border:1px solid #dce2ef;border-radius:11px;padding:11px;background:#fff;color:var(--ink)}.form-actions{display:flex;gap:8px;margin-top:15px}.timer-card{text-align:center;padding:24px}.timer-task{font-size:14px;color:var(--muted)}.clock{font-size:clamp(48px,12vw,70px);font-weight:850;letter-spacing:-2px;margin:10px 0;color:var(--blue);font-variant-numeric:tabular-nums}.timer-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.timer-note{font-size:12px;color:var(--muted);margin-top:14px}.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat-card{padding:15px;background:#fff;border:1px solid var(--line);border-radius:16px}.stat-card strong{font-size:24px;display:block}.stat-card span{font-size:12px;color:var(--muted)}.bar-row{display:grid;grid-template-columns:75px 1fr 36px;align-items:center;gap:8px;margin:12px 0;font-size:12px}.bar{height:9px;border-radius:20px;background:#edf0f8;overflow:hidden}.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:20px}.notice{background:#fff8e7;border:1px solid #f7e4ae;color:#76510b;padding:12px;border-radius:13px;font-size:12px;line-height:1.6;margin-bottom:14px}.settings-row{display:flex;justify-content:space-between;align-items:center;gap:10px}.muted{color:var(--muted)}.bottom-note{text-align:center;font-size:11px;color:var(--muted);margin-top:24px}
+dialog{border:0;border-radius:20px;width:min(560px,calc(100% - 24px));padding:20px;box-shadow:0 24px 80px #0b153b45}dialog::backdrop{background:#111a31a6}dialog h2{margin:0 0 16px;font-size:19px}.close-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#172033;color:white;padding:12px 16px;border-radius:12px;z-index:20;box-shadow:0 10px 30px #0002;font-size:13px;max-width:90%;display:none}.toast.show{display:block}
+@media(max-width:520px){.app{padding:13px 11px 75px}.hero{padding:18px}.hero-grid{gap:7px}.metric{padding:10px 8px}.metric strong{font-size:19px}.metric span{font-size:10px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.section-head{align-items:flex-start}.task-actions button{padding:8px}.brand h1{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="logo">✓</div><div><h1>FocusFlow</h1><p>তোমার দিন, তোমার নিয়ন্ত্রণ</p></div></div>
+  <div class="date" id="todayDate"></div>
+</header>
+<section class="hero">
+  <h2 id="greeting">আজকের লক্ষ্য শুরু করি?</h2>
+  <p>ছোট ছোট কাজ, প্রতিদিনের উন্নতি।</p>
+  <div class="hero-grid">
+    <div class="metric"><strong id="metricDone">0/0</strong><span>সম্পন্ন কাজ</span></div>
+    <div class="metric"><strong id="metricScore">0</strong><span>আজকের স্কোর / ১০০</span></div>
+    <div class="metric"><strong id="metricTime">0 মিনিট</strong><span>ফোকাস সময়</span></div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="heroProgress"></div></div>
+</section>
+<nav class="tabs" aria-label="প্রধান মেনু">
+  <button class="tab active" data-tab="home">🏠 হোম</button>
+  <button class="tab" data-tab="routine">📅 রুটিন</button>
+  <button class="tab" data-tab="focus">⏱️ ফোকাস</button>
+  <button class="tab" data-tab="progress">📊 রিপোর্ট</button>
+  <button class="tab" data-tab="settings">⚙️ সেটিংস</button>
+</nav>
+<section class="panel active" id="panel-home">
+  <div class="section-head"><div><h2>আজকের কাজ</h2><div class="sub" id="homeSub">আজকের রুটিনের অগ্রগতি</div></div><button class="primary" id="quickAdd">+ কাজ যোগ</button></div>
+  <div id="todayTasks"></div>
+  <div class="notice">💡 <b>মনে রেখো:</b> টাইমার সময় গণনা করে, কিন্তু তুমি সত্যিই মনোযোগ দিয়ে পড়ছ কি না তা নিজে থেকে নিশ্চিত করতে পারে না। কাজের শেষে ছোট কুইজ বা প্রমাণ যোগ করলে অগ্রগতি আরও নির্ভরযোগ্য হবে।</div>
+</section>
+<section class="panel" id="panel-routine">
+  <div class="section-head"><div><h2>আমার রুটিন</h2><div class="sub">নতুন কাজ যোগ করো, সময় বদলাও বা পুনরাবৃত্তি ঠিক করো।</div></div><button class="primary" id="addTaskBtn">+ নতুন</button></div>
+  <div class="card"><div class="field"><label for="filterDate">তারিখ অনুযায়ী দেখো</label><input type="date" id="filterDate"></div></div>
+  <div id="allTasks"></div>
+</section>
+<section class="panel" id="panel-focus">
+  <div class="section-head"><div><h2>ফোকাস টাইমার</h2><div class="sub">একবারে একটি কাজে মনোযোগ দাও।</div></div></div>
+  <div class="card timer-card">
+    <div class="timer-task" id="timerTaskName">কোনো কাজ নির্বাচন করা হয়নি</div>
+    <div class="clock" id="clock">25:00</div>
+    <div class="field" style="max-width:340px;margin:0 auto 15px;text-align:left"><label for="timerTaskSelect">কোন কাজের জন্য টাইমার?</label><select id="timerTaskSelect"></select></div>
+    <div class="field" style="max-width:180px;margin:0 auto 15px;text-align:left"><label for="timerMinutes">টাইমার (মিনিট)</label><input id="timerMinutes" type="number" min="1" max="600" value="25"></div>
+    <div class="timer-controls"><button class="primary" id="timerStart">▶ শুরু</button><button class="soft" id="timerPause" disabled>Ⅱ বিরতি</button><button class="success" id="timerFinish" disabled>✓ শেষ</button><button class="danger" id="timerReset">↺ রিসেট</button></div>
+    <div class="timer-note" id="timerStatus">টাইমার শুরু করলে ফোকাস সময় রেকর্ড হবে।</div>
+  </div>
+  <div class="notice">টাইমার চলার সময় অ্যাপ বন্ধ বা ফোনের স্ক্রিন লক থাকলে কিছু ব্রাউজারে সময় গণনা ঠিক থাকতে পারে, তবে ব্যাকগ্রাউন্ড নোটিফিকেশন সব ফোনে নিশ্চিত নয়। গুরুত্বপূর্ণ রিমাইন্ডারের জন্য নোটিফিকেশন অনুমতি চালু রাখো।</div>
+</section>
+<section class="panel" id="panel-progress">
+  <div class="section-head"><div><h2>পারফরম্যান্স রিপোর্ট</h2><div class="sub">তোমার কাজের হিসাব ও ধারাবাহিকতা</div></div></div>
+  <div class="tabs" style="margin-top:0"><button class="tab active" data-period="week">এই সপ্তাহ</button><button class="tab" data-period="month">এই মাস</button></div>
+  <div class="stats-grid">
+    <div class="stat-card"><strong id="reportScore">0/100</strong><span>গড় স্কোর</span></div>
+    <div class="stat-card"><strong id="reportRate">0%</strong><span>কাজ সম্পন্নের হার</span></div>
+    <div class="stat-card"><strong id="reportDone">0</strong><span>সম্পন্ন কাজ</span></div>
+    <div class="stat-card"><strong id="reportFocus">0 মিনিট</strong><span>ফোকাস সময়</span></div>
+  </div>
+  <div class="card" style="margin-top:12px"><h3 style="margin:0 0 12px;font-size:15px">দিনভিত্তিক কাজ সম্পন্ন</h3><div id="weeklyBars"></div></div>
+  <div class="card"><h3 style="margin:0 0 8px;font-size:15px">তোমার জন্য পরামর্শ</h3><div id="insight" class="muted" style="font-size:13px;line-height:1.7">কাজের রেকর্ড তৈরি হলে এখানে পরামর্শ দেখানো হবে।</div></div>
+</section>
+<section class="panel" id="panel-settings">
+  <div class="section-head"><div><h2>সেটিংস</h2><div class="sub">রিমাইন্ডার ও ডেটা নিয়ন্ত্রণ</div></div></div>
+  <div class="card">
+    <div class="settings-row"><div><b>🔔 নোটিফিকেশন</b><div class="sub">অ্যাপ খোলা থাকলে সময়মতো রিমাইন্ডার</div></div><button class="primary" id="enableNotifications">চালু করো</button></div>
+    <p class="sub" id="notificationStatus">নোটিফিকেশনের অবস্থা যাচাই করা হয়নি।</p>
+  </div>
+  <div class="card">
+    <b>📤 ডেটা ব্যাকআপ</b><p class="sub">তোমার রুটিন ও রিপোর্ট JSON ফাইলে ডাউনলোড করতে পারো।</p><button class="soft" id="exportData">ডেটা ডাউনলোড</button> <button class="soft" id="importButton">ব্যাকআপ ইমপোর্ট</button><input type="file" id="importFile" accept=".json,application/json" hidden>
+  </div>
+  <div class="card">
+    <b>🧹 ডেটা মুছে ফেলা</b><p class="sub">এটি এই ডিভাইসে সংরক্ষিত সব রুটিন ও রিপোর্ট মুছে দেবে। আগে ব্যাকআপ রাখো।</p><button class="danger" id="clearData">সব ডেটা মুছো</button>
+  </div>
+  <div class="card"><b>এই সংস্করণ সম্পর্কে</b><p class="sub">FocusFlow হলো প্রাথমিক, ব্যক্তিগত ব্যবহারের সংস্করণ। ডেটা এই ব্রাউজারে সংরক্ষিত হয়। অন্য ফোনে স্বয়ংক্রিয়ভাবে সিঙ্ক হয় না।</p></div>
+</section>
+<div class="bottom-note">FocusFlow • নিজের অগ্রগতি, নিজের নিয়ন্ত্রণ</div>
+</div>
+<dialog id="taskDialog">
+  <div class="close-row"><h2 id="dialogTitle">নতুন কাজ যোগ করো</h2><button class="soft" id="closeDialog">✕</button></div>
+  <form id="taskForm">
+    <input type="hidden" id="editId">
+    <div class="form-grid">
+      <div class="field full"><label for="taskName">কাজ বা সাবজেক্টের নাম *</label><input id="taskName" required maxlength="90" placeholder="যেমন: English Practice"></div>
+      <div class="field"><label for="taskCategory">ক্যাটাগরি</label><select id="taskCategory"><option>পড়াশোনা</option><option>চাকরির প্রস্তুতি</option><option>দক্ষতা শেখা</option><option>কাজ/ব্যবসা</option><option>স্বাস্থ্য</option><option>ব্যক্তিগত</option><option>অন্যান্য</option></select></div>
+      <div class="field"><label for="taskPriority">অগ্রাধিকার</label><select id="taskPriority"><option value="medium">Medium</option><option value="high">High</option><option value="low">Low</option></select></div>
+      <div class="field"><label for="taskDate">তারিখ *</label><input type="date" id="taskDate" required></div>
+      <div class="field"><label for="taskStart">শুরুর সময় *</label><input type="time" id="taskStart" required value="06:00"></div>
+      <div class="field"><label for="taskEnd">শেষের সময় *</label><input type="time" id="taskEnd" required value="06:30"></div>
+      <div class="field"><label for="taskReminder">কত মিনিট আগে অ্যালার্ট</label><select id="taskReminder"><option value="0">অ্যালার্ট নয়</option><option value="5" selected>৫ মিনিট আগে</option><option value="10">১০ মিনিট আগে</option><option value="15">১৫ মিনিট আগে</option><option value="30">৩০ মিনিট আগে</option></select></div>
+      <div class="field"><label for="taskRepeat">পুনরাবৃত্তি</label><select id="taskRepeat"><option value="none">একবার</option><option value="daily">প্রতিদিন</option><option value="weekdays">রবিবার–বৃহস্পতিবার</option><option value="weekly">প্রতি সপ্তাহে</option></select></div>
+      <div class="field full"><label for="taskGoal">আজকের লক্ষ্য</label><input id="taskGoal" maxlength="160" placeholder="যেমন: ১০টি বাক্য শেখা"></div>
+      <div class="field full"><label for="taskNotes">নোট (ঐচ্ছিক)</label><textarea id="taskNotes" rows="2" maxlength="500" placeholder="কাজ সম্পর্কে অতিরিক্ত তথ্য"></textarea></div>
+    </div>
+    <div class="form-actions"><button class="primary" type="submit">সেভ করো</button><button class="soft" type="button" id="cancelDialog">বাতিল</button></div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $ = id => document.getElementById(id);
+const STORAGE_KEY='focusflow_data_v1';
+const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36);
+let state={tasks:[],sessions:[],period:'week'};
+let timer={interval:null,running:false,remaining:1500,total:1500,startedAt:null,elapsedBefore:0,taskId:null};
+let remindersChecked=new Set();
+function load(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');state.tasks=Array.isArray(s.tasks)?s.tasks:[];state.sessions=Array.isArray(s.sessions)?s.sessions:[]}catch(e){state={tasks:[],sessions:[]}}}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify({tasks:state.tasks,sessions:state.sessions}));renderAll()}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function niceDate(iso){if(!iso)return '';return new Date(iso+'T12:00:00').toLocaleDateString('bn-BD',{day:'numeric',month:'short',year:'numeric'})}
+function time12(t){if(!t)return '';const [h,m]=t.split(':').map(Number);const suffix=h>=12?'PM':'AM';return `${String(h%12||12).padStart(2,'0')}:${String(m).padStart(2,'0')} ${suffix}`}
+function duration(task){const [sh,sm]=task.start.split(':').map(Number),[eh,em]=task.end.split(':').map(Number);return Math.max(0,eh*60+em-sh*60-sm)}
+function taskStatus(t){return t.status||'pending'}
+function tasksForDate(date){return state.tasks.filter(t=>t.date===date).sort((a,b)=>a.start.localeCompare(b.start))}
+function focusMinutes(date){return state.sessions.filter(s=>s.date===date).reduce((n,s)=>n+(s.minutes||0),0)}
+function scoreForDate(date){const ts=tasksForDate(date);if(!ts.length)return 0;const completed=ts.filter(t=>t.status==='done').length;const completion=completed/ts.length*70;const punctual=ts.filter(t=>t.status==='done'&&t.finishedAt&&new Date(t.finishedAt).toTimeString().slice(0,5)<=t.end).length;const punctualScore=completed?punctual/completed*20:0;const goals=ts.filter(t=>t.status==='done'&&t.goalResult).length;const goalScore=completed?goals/completed*10:0;return Math.round(completion+punctualScore+goalScore)}
+function fmtMins(n){n=Math.round(n||0);if(n<60)return `${n} মিনিট`;return `${Math.floor(n/60)} ঘ ${n%60} মি`}
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderHeader(){const d=new Date();$('todayDate').textContent=d.toLocaleDateString('bn-BD',{weekday:'long',day:'numeric',month:'long'});const h=d.getHours();$('greeting').textContent=h<12?'সুপ্রভাত! আজকের লক্ষ্য শুরু করি?':h<17?'শুভ দিন! আজকের অগ্রগতি দেখি?':'শুভ সন্ধ্যা! আজকের কাজ গুছিয়ে নিই?';}
+function taskCard(t){const done=t.status==='done';return `<div class="card"><div class="task"><input aria-label="কাজ সম্পন্ন" class="check" type="checkbox" ${done?'checked':''} onchange="toggleDone('${t.id}',this.checked)"><div class="task-main"><div class="task-title">${escapeHtml(t.name)}</div><div class="task-meta"><span>🕒 ${time12(t.start)}–${time12(t.end)}</span><span>${escapeHtml(t.category)}</span><span>${duration(t)} মিনিট</span></div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><span class="tag ${t.priority==='high'?'high':''}">${t.priority==='high'?'উচ্চ অগ্রাধিকার':t.priority==='low'?'কম অগ্রাধিকার':'মাঝারি অগ্রাধিকার'}</span>${done?'<span class="tag done">✓ সম্পন্ন</span>':''}${t.repeat&&t.repeat!=='none'?'<span class="tag">পুনরাবৃত্তি</span>':''}</div>${t.goal?`<div class="sub" style="margin-top:8px">🎯 লক্ষ্য: ${escapeHtml(t.goal)}</div>`:''}${t.notes?`<div class="sub" style="margin-top:4px">${escapeHtml(t.notes)}</div>`:''}<div class="task-actions"><button class="soft small" onclick="startTaskTimer('${t.id}')">▶ টাইমার</button><button class="soft small" onclick="editTask('${t.id}')">✎ এডিট</button><button class="danger small" onclick="deleteTask('${t.id}')">মুছো</button></div></div></div></div>`}
+function renderHome(){const ts=tasksForDate(todayISO()),done=ts.filter(t=>t.status==='done').length,score=scoreForDate(todayISO()),mins=focusMinutes(todayISO());$('metricDone').textContent=`${done}/${ts.length}`;$('metricScore').textContent=score;$('metricTime').textContent=fmtMins(mins);$('heroProgress').style.width=(ts.length?done/ts.length*100:0)+'%';$('homeSub').textContent=`${ts.length}টি কাজ নির্ধারিত • ${done}টি সম্পন্ন`;const root=$('todayTasks');root.innerHTML=ts.length?ts.map(taskCard).join(''):`<div class="card empty"><b>আজকের রুটিন এখনো তৈরি হয়নি</b>প্রথম কাজটি যোগ করে শুরু করো।<br><button class="primary" style="margin-top:12px" onclick="openNewTask()">+ প্রথম কাজ যোগ করো</button></div>`}
+function renderRoutine(){const date=$('filterDate').value||todayISO();const ts=tasksForDate(date);$('allTasks').innerHTML=ts.length?ts.map(taskCard).join(''):`<div class="card empty"><b>${niceDate(date)}-এ কোনো কাজ নেই</b>এই তারিখে রুটিন তৈরি করতে নতুন কাজ যোগ করো।<br><button class="primary" style="margin-top:12px" onclick="openNewTask('${date}')">+ কাজ যোগ</button></div>`}
+function renderTimerSelect(){const sel=$('timerTaskSelect');const current=sel.value;const ts=state.tasks.filter(t=>t.status!=='done').sort((a,b)=>(a.date+a.start).localeCompare(b.date+b.start));sel.innerHTML='<option value="">কাজ নির্বাচন করো</option>'+ts.map(t=>`<option value="${t.id}">${escapeHtml(t.name)} (${niceDate(t.date)})</option>`).join('');if(ts.some(t=>t.id===current))sel.value=current;if(timer.taskId)sel.value=timer.taskId;$('timerTaskName').textContent=sel.value?(state.tasks.find(t=>t.id===sel.value)?.name||'নির্বাচিত কাজ'):'কোনো কাজ নির্বাচন করা হয়নি'}
+function renderReport(){const now=new Date(),monthMode=state.period==='month';let dates=[];if(monthMode){const first=new Date(now.getFullYear(),now.getMonth(),1);for(let d=new Date(first);d<=now;d.setDate(d.getDate()+1))dates.push(todayISODate(d))}else{const day=(now.getDay()+6)%7;const monday=new Date(now);monday.setDate(now.getDate()-day);for(let i=0;i<7;i++){const d=new Date(monday);d.setDate(monday.getDate()+i);if(d<=now)dates.push(todayISODate(d))}}
+function todayISODate(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+const all=state.tasks.filter(t=>dates.includes(t.date)),done=all.filter(t=>t.status==='done').length,rate=all.length?Math.round(done/all.length*100):0;const scores=dates.map(d=>scoreForDate(d)).filter((v,i)=>tasksForDate(dates[i]).length);const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):0;const mins=state.sessions.filter(s=>dates.includes(s.date)).reduce((n,s)=>n+s.minutes,0);$('reportScore').textContent=`${avg}/100`;$('reportRate').textContent=`${rate}%`;$('reportDone').textContent=`${done}/${all.length}`;$('reportFocus').textContent=fmtMins(mins);
+let barDates=dates;if(monthMode&&dates.length>14)barDates=dates.filter((d,i)=>i%Math.ceil(dates.length/10)===0||i===dates.length-1);$('weeklyBars').innerHTML=barDates.length?barDates.map(d=>{const ts=tasksForDate(d),n=ts.filter(t=>t.status==='done').length,p=ts.length?Math.round(n/ts.length*100):0;const label=new Date(d+'T12:00:00').toLocaleDateString('bn-BD',{day:'numeric',month:monthMode?'short':undefined,weekday:monthMode?undefined:'short'});return `<div class="bar-row"><span>${label}</span><div class="bar"><i style="width:${p}%"></i></div><b>${p}%</b></div>`}).join(''):'<div class="empty">এখনো কোনো তথ্য নেই। কাজ যোগ করে শুরু করো।</div>';
+if(!all.length){$('insight').textContent='এই সময়ের জন্য কোনো কাজের রেকর্ড নেই। কয়েকটি কাজ যোগ করে সম্পন্ন করলে এখানে তোমার অগ্রগতির পরামর্শ দেখা যাবে।'}else if(rate>=80){$('insight').textContent=`দারুণ! তুমি ${rate}% কাজ সম্পন্ন করেছ। এই ধারাবাহিকতা বজায় রাখো। পরের ধাপে কাজের লক্ষ্য পূরণ ও নির্ধারিত সময় মানার দিকে মনোযোগ দাও।`}else if(rate>=50){$('insight').textContent=`তুমি ${rate}% কাজ সম্পন্ন করেছ। প্রতিদিনের সবচেয়ে গুরুত্বপূর্ণ ২–৩টি কাজ আগে নির্ধারণ করো এবং অসম্পন্ন কাজের সময় বাস্তবসম্মতভাবে পুনর্নির্ধারণ করো।`}else{$('insight').textContent=`এই সময়ে ${rate}% কাজ সম্পন্ন হয়েছে। কাজের তালিকা একটু ছোট করো, ছোট সেশনে কাজ করো এবং প্রতিদিন একটি গুরুত্বপূর্ণ কাজ শেষ করার লক্ষ্য রাখো।`}}
+function renderAll(){renderHeader();renderHome();renderRoutine();renderTimerSelect();renderReport();updateClock()}
+function openNewTask(date=todayISO()){ $('taskForm').reset();$('editId').value='';$('dialogTitle').textContent='নতুন কাজ যোগ করো';$('taskDate').value=date;$('taskStart').value='06:00';$('taskEnd').value='06:30';$('taskDialog').showModal()}
+function editTask(id){const t=state.tasks.find(t=>t.id===id);if(!t)return;$('taskForm').reset();$('editId').value=id;$('dialogTitle').textContent='কাজ এডিট করো';for(const [field,key] of [['taskName','name'],['taskCategory','category'],['taskPriority','priority'],['taskDate','date'],['taskStart','start'],['taskEnd','end'],['taskReminder','reminder'],['taskRepeat','repeat'],['taskGoal','goal'],['taskNotes','notes']])$(field).value=t[key]??({'taskReminder':'5','taskRepeat':'none'}[field]||'');$('taskDialog').showModal()}
+function deleteTask(id){if(!confirm('এই কাজটি মুছে ফেলবে?'))return;state.tasks=state.tasks.filter(t=>t.id!==id);save();toast('কাজ মুছে ফেলা হয়েছে।')}
+function toggleDone(id,checked){const t=state.tasks.find(t=>t.id===id);if(!t)return;if(checked){t.status='done';t.finishedAt=new Date().toISOString();const goal=prompt('কাজের লক্ষ্য বা ফলাফল (ঐচ্ছিক):','');if(goal!==null&&goal.trim())t.goalResult=goal.trim()}else{t.status='pending';delete t.finishedAt;delete t.goalResult}save();toast(checked?'কাজ সম্পন্ন হিসেবে সেভ হয়েছে।':'কাজ আবার অসম্পন্ন করা হয়েছে।')}
+function startTaskTimer(id){const t=state.tasks.find(t=>t.id===id);if(!t)return;timer.taskId=id;$('timerTaskSelect').value=id;$('timerMinutes').value=Math.max(1,duration(t)||25);switchTab('focus');resetTimer();$('timerTaskSelect').value=id;renderTimerSelect();$('timerTaskSelect').value=id;$('timerTaskName').textContent=t.name;toast('কাজ নির্বাচন করা হয়েছে। টাইমার শুরু করো।')}
+function switchTab(tab){document.querySelectorAll('.tab[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+tab));if(tab==='progress')renderReport()}
+function updateClock(){const sec=Math.max(0,Math.ceil(timer.remaining));$('clock').textContent=`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`}
+function startTimer(){if(timer.running)return;const taskId=$('timerTaskSelect').value;if(!taskId){toast('আগে একটি কাজ নির্বাচন করো।');return}timer.taskId=taskId;if(!timer.startedAt){const mins=Math.max(1,Math.min(600,Number($('timerMinutes').value)||25));timer.total=mins*60;timer.remaining=timer.total;timer.elapsedBefore=0;timer.startedAt=Date.now()}timer.running=true;timer.lastTick=Date.now();timer.interval=setInterval(()=>{const now=Date.now();timer.remaining-=Math.max(0,(now-timer.lastTick)/1000);timer.lastTick=now;if(timer.remaining<=0){timer.remaining=0;pauseTimer();updateClock();notify('ফোকাস সেশন শেষ','তোমার টাইমার শেষ হয়েছে। কাজের ফলাফল সেভ করো।');toast('টাইমার শেষ! কাজের ফলাফল সেভ করো।')}updateClock()},250);$('timerStart').disabled=true;$('timerPause').disabled=false;$('timerFinish').disabled=false;$('timerStatus').textContent='ফোকাস সেশন চলছে। কাজ শেষে “শেষ” চাপো।';updateClock()}
+function pauseTimer(){if(!timer.running)return;clearInterval(timer.interval);timer.interval=null;timer.running=false;$('timerStart').disabled=false;$('timerPause').disabled=true;$('timerStatus').textContent='টাইমার বিরতিতে আছে। আবার শুরু করতে পারো।'}
+function resetTimer(){pauseTimer();timer.remaining=Math.max(1,Number($('timerMinutes').value)||25)*60;timer.total=timer.remaining;timer.startedAt=null;timer.elapsedBefore=0;$('timerFinish').disabled=true;$('timerStatus').textContent='টাইমার শুরু করলে ফোকাস সময় রেকর্ড হবে।';updateClock()}
+function finishTimer(){if(timer.running)pauseTimer();if(!timer.startedAt){toast('আগে টাইমার শুরু করো।');return}const elapsed=Math.max(0,Math.round((timer.total-timer.remaining)/60));if(elapsed>0){state.sessions.push({id:uid(),date:todayISO(),taskId:timer.taskId,minutes:elapsed,at:new Date().toISOString()});}const t=state.tasks.find(t=>t.id===timer.taskId);if(t&&timer.remaining===0){if(confirm('টাইমার শেষ হয়েছে। কাজটি সম্পন্ন হিসেবে চিহ্নিত করবে?')){t.status='done';t.finishedAt=new Date().toISOString()}}save();timer.startedAt=null;timer.remaining=Math.max(1,Number($('timerMinutes').value)||25)*60;timer.total=timer.remaining;$('timerFinish').disabled=true;$('timerStart').disabled=false;$('timerPause').disabled=true;$('timerStatus').textContent=`${elapsed} মিনিটের সেশন সেভ হয়েছে।`;updateClock();toast(`${elapsed} মিনিট ফোকাস সময় সেভ হয়েছে।`)}
+function notify(title,body){if('Notification'in window&&Notification.permission==='granted'){try{new Notification(title,{body})}catch(e){}}}
+function checkReminders(){if(!('Notification'in window)||Notification.permission!=='granted')return;const now=new Date();state.tasks.filter(t=>t.date===todayISO()&&t.status!=='done'&&Number(t.reminder)>0).forEach(t=>{const [h,m]=t.start.split(':').map(Number);const target=new Date();target.setHours(h,m,0,0);target.setMinutes(target.getMinutes()-Number(t.reminder));const key=t.id+'-'+todayISO();if(now>=target&&now<new Date(target.getTime()+60000)&&!remindersChecked.has(key)){remindersChecked.add(key);notify('রুটিন রিমাইন্ডার',`${t.name} শুরু হবে ${time12(t.start)}-এ।`)}})}
+$('taskForm').addEventListener('submit',e=>{e.preventDefault();const name=$('taskName').value.trim(),date=$('taskDate').value,start=$('taskStart').value,end=$('taskEnd').value;if(!name||!date||!start||!end)return;if(end<=start){toast('শেষের সময় শুরুর সময়ের পরে হতে হবে।');return}const id=$('editId').value;const task={id:id||uid(),name,category:$('taskCategory').value,priority:$('taskPriority').value,date,start,end,reminder:$('taskReminder').value,repeat:$('taskRepeat').value,goal:$('taskGoal').value.trim(),notes:$('taskNotes').value.trim(),status:'pending'};if(id){const old=state.tasks.find(t=>t.id===id);if(old){task.status=old.status;task.finishedAt=old.finishedAt;task.goalResult=old.goalResult;state.tasks=state.tasks.map(t=>t.id===id?task:t)}}else{state.tasks.push(task);if(task.repeat!=='none'){const base=new Date(date+'T12:00:00');for(let i=1;i<=30;i++){const d=new Date(base);d.setDate(d.getDate()+i);if(task.repeat==='weekly'&&i%7!==0)continue;if(task.repeat==='weekdays'&&(d.getDay()===5||d.getDay()===6))continue;const copy={...task,id:uid(),date:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,status:'pending'};state.tasks.push(copy)}}}if(duration(task)<=0){toast('সময় ঠিক করে দাও।');return}$('taskDialog').close();save();toast(id?'কাজ আপডেট হয়েছে।':'রুটিন সেভ হয়েছে।')});
+document.querySelectorAll('.tab[data-tab]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+document.querySelectorAll('[data-period]').forEach(b=>b.addEventListener('click',()=>{state.period=b.dataset.period;document.querySelectorAll('[data-period]').forEach(x=>x.classList.toggle('active',x===b));renderReport()}));
+$('quickAdd').onclick=()=>openNewTask();$('addTaskBtn').onclick=()=>openNewTask($('filterDate').value||todayISO());$('closeDialog').onclick=$('cancelDialog').onclick=()=>$('taskDialog').close();$('filterDate').value=todayISO();$('filterDate').addEventListener('change',renderRoutine);
+$('timerStart').onclick=startTimer;$('timerPause').onclick=pauseTimer;$('timerFinish').onclick=finishTimer;$('timerReset').onclick=resetTimer;$('timerTaskSelect').addEventListener('change',()=>{timer.taskId=$('timerTaskSelect').value;const t=state.tasks.find(t=>t.id===timer.taskId);$('timerTaskName').textContent=t?t.name:'কোনো কাজ নির্বাচন করা হয়নি'});
+$('timerMinutes').addEventListener('change',()=>{if(!timer.startedAt){timer.remaining=Math.max(1,Number($('timerMinutes').value)||25)*60;timer.total=timer.remaining;updateClock()}});
+$('enableNotifications').onclick=async()=>{if(!('Notification'in window)){toast('এই ব্রাউজারে নোটিফিকেশন সমর্থিত নয়।');return}try{const p=await Notification.requestPermission();$('notificationStatus').textContent=p==='granted'?'নোটিফিকেশন অনুমতি চালু আছে।':'নোটিফিকেশন অনুমতি দেওয়া হয়নি।';toast($('notificationStatus').textContent)}catch(e){toast('নোটিফিকেশন চালু করা যায়নি।') }};
+$('exportData').onclick=()=>{const blob=new Blob([JSON.stringify({tasks:state.tasks,sessions:state.sessions,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='focusflow-backup-'+todayISO()+'.json';a.click();URL.revokeObjectURL(a.href);toast('ব্যাকআপ ডাউনলোড শুরু হয়েছে।')};
+$('importButton').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data.tasks)||!Array.isArray(data.sessions))throw Error('bad');if(confirm('বর্তমান ডেটার বদলে ব্যাকআপের ডেটা বসবে। চালিয়ে যাবে?')){state.tasks=data.tasks;state.sessions=data.sessions;save();toast('ব্যাকআপ ইমপোর্ট হয়েছে।')}}catch(err){toast('ফাইলটি সঠিক FocusFlow ব্যাকআপ নয়।')}e.target.value=''};
+$('clearData').onclick=()=>{if(confirm('সত্যিই সব রুটিন ও রিপোর্ট মুছে ফেলবে? এই কাজ ফেরানো যাবে না।')){state={tasks:[],sessions:[],period:'week'};save();toast('সব ডেটা মুছে ফেলা হয়েছে।')}};
+window.toggleDone=toggleDone;window.editTask=editTask;window.deleteTask=deleteTask;window.startTaskTimer=startTaskTimer;window.openNewTask=openNewTask;
+load();renderAll();setInterval(checkReminders,15000);if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+if('Notification'in window)$('notificationStatus').textContent=Notification.permission==='granted'?'নোটিফিকেশন অনুমতি চালু আছে।':Notification.permission==='denied'?'নোটিফিকেশন ব্লক করা আছে।':'নোটিফিকেশন চালু করা হয়নি।';
+</script>
+</body>
+</html>
